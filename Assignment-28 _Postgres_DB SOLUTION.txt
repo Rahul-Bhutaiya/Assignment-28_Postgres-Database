@@ -1,0 +1,121 @@
+1. Create a table (student) with 3 columns (rollno, name, course).
+
+postgres=# create table student(rollno int,name text,course text);
+CREATE TABLE
+postgres=# select * from student;
+ rollno | name | course
+--------+------+--------
+(0 rows)
+
+
+2. Insert records for 4 students.
+
+postgres=# insert into student values(1,'Paresh','Python'),(2,'Rahul','Kotlin'),(3,'Himanshu','Flutter'),(4,'Nilesh','Andr
+oid');
+INSERT 0 4
+
+3. Write a Select query to fetch all the students.
+
+postgres=# select * from student;
+ rollno |   name   | course
+--------+----------+---------
+      1 | Paresh   | Python
+      2 | Rahul    | Kotlin
+      3 | Himanshu | Flutter
+      4 | Nilesh   | Android
+(4 rows)
+
+4. Update the student name of rollno 3 with ‘Mohan’
+
+postgres=# update student set name='Mohan' where rollno=3;
+UPDATE 1
+
+postgres=# select * from student;
+ rollno |  name  | course
+--------+--------+---------
+      1 | Paresh | Python
+      2 | Rahul  | Kotlin
+      4 | Nilesh | Android
+      3 | Mohan  | Flutter
+(4 rows)
+
+5. Delete any student from table with their rollno.
+
+postgres=# delete from student where rollno=1;
+DELETE 1
+
+postgres=# select * from student;
+ rollno |  name  | course
+--------+--------+---------
+      2 | Rahul  | Kotlin
+      4 | Nilesh | Android
+      3 | Mohan  | Flutter
+(3 rows)
+
+6. Delete all the data from student table.
+
+postgres=# delete from student;
+DELETE 3
+
+postgres=# select * from student;
+ rollno | name | course
+--------+------+--------
+(0 rows)
+
+7. Drop the student table.
+
+postgres=# drop table student;
+DROP TABLE
+
+postgres=# select * from student;
+ERROR:  relation "student" does not exist
+
+8. Create Courses table (cid, cname) where cid is a primary key and Student table
+(rollno, name, cid) where rollno is a primary key and cid is a foreign key.
+
+postgres=# create table courses(cid int not null,cname text, primary key(cid));
+CREATE TABLE
+
+postgres=# create table student(rollno int not null,name varchar,cid int,primary key(rollno),constraint fk_cid foreign key
+(cid) references courses(cid));
+CREATE TABLE
+
+9. Insert data in both the tables.
+
+postgres=# insert into courses values(101,'Python'),(102,'Java'),(103,'React'),(104,'DSA');
+INSERT 0 4
+
+postgres=# select * from courses;
+ cid | cname
+-----+--------
+ 101 | Python
+ 102 | Java
+ 103 | React
+ 104 | DSA
+(4 rows)
+
+postgres=# insert into student values(1,'Rahul',101),(2,'Nilesh',102),(3,'Gaurav',103),(4,'Himanshu',104),(5,'Darshit',101
+),(6,'Navkar',101),(7,'Yagnik',104);
+INSERT 0 7
+
+postgres=# select * from student;
+ rollno |   name   | cid
+--------+----------+-----
+      1 | Rahul    | 101
+      2 | Nilesh   | 102
+      3 | Gaurav   | 103
+      4 | Himanshu | 104
+      5 | Darshit  | 101
+      6 | Navkar   | 101
+      7 | Yagnik   | 104
+(7 rows)
+
+10. Select all the students who are doing a specific course, eg. Python.
+
+postgres=# select name from student where cid in/= (select cid from courses where cname='Python');
+  name
+---------
+ Rahul
+ Darshit
+ Navkar
+(3 rows)
