@@ -112,7 +112,7 @@ postgres=# select * from student;
 
 10. Select all the students who are doing a specific course, eg. Python.
 
-postgres=# select name from student where cid in/= (select cid from courses where cname='Python');
+postgres=# select name from student where cid= (select cid from courses where cname='Python');
   name
 ---------
  Rahul
